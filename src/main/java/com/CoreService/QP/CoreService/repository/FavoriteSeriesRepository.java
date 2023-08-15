@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface FavoriteSeriesRepository extends JpaRepository<FavoriteSeriesEntity, Integer>{
-  //  List<FavoriteSeriesEntity> findByUserIdAndSeriesId(int userId, int id);
+    FavoriteSeriesEntity findByUserIdAndSeriesId(int userId, int seriesId);
 }

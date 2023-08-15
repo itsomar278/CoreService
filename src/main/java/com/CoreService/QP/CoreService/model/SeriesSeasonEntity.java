@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 @Entity
-    @Table(name = "series_season" , schema = "CoreSchema")
+    @Table(name = "series_season")
     @Getter
     @Setter
     @EqualsAndHashCode

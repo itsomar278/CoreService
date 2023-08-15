@@ -6,7 +6,7 @@ import lombok.*;
 import java.util.List;
 
 @Entity
-@Table(name = "series" , schema = "CoreSchema")
+@Table(name = "series")
 @Getter
 @Setter
 @EqualsAndHashCode

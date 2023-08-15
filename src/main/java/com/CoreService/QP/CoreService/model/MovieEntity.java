@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "Movie" , schema = "CoreService")
+@Table(name = "Movie" )
 @Getter
 @Setter
 @EqualsAndHashCode
@@ -25,7 +25,7 @@ public class MovieEntity {
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
-    @Column(name = "description", columnDefinition = "CoreSchema")
+    @Column(name = "description")
     private String description;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)

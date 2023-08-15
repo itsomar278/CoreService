@@ -8,5 +8,5 @@ import java.util.List;
 
 @Repository
 public interface FavoriteMovieRepository extends JpaRepository<FavoriteMovieEntity, Integer> {
-   // List<FavoriteMovieEntity> findByUserIdAndMovieId(int userId, int id);
+    FavoriteMovieEntity findByUserIdAndMovieId(int userId, int movieId);
 }

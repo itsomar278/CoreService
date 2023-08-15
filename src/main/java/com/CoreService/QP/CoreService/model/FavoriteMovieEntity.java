@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table(name = "favorite_movie", schema = "CoreSchema")
+@Table(name = "favorite_movie")
 @Getter
 @Setter
 @EqualsAndHashCode

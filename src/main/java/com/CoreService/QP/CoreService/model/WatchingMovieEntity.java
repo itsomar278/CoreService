@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "watching_movie", schema = "CoreSchema")
+@Table(name = "watching_movie")
 @Getter
 @Setter
 @EqualsAndHashCode

@@ -6,7 +6,7 @@ import lombok.*;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "movie_season", schema = "CoreSchema")
+@Table(name = "movie_season")
 @Getter
 @Setter
 @EqualsAndHashCode

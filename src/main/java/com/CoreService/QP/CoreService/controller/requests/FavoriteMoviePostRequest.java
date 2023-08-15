@@ -6,7 +6,6 @@ public class FavoriteMoviePostRequest {
         this.movieId = movieId;
     }
     public FavoriteMoviePostRequest() {
-
     }
     public int getMovieId() {
         return movieId;

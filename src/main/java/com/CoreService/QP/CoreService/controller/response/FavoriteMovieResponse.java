@@ -12,7 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class FavoriteSeriesResponse {
-    int seriesId;;
-    String seriesName;
+public class FavoriteMovieResponse {
+    int movieId;
+    String movieName;
 }

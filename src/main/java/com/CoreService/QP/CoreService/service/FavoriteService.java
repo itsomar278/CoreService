@@ -44,7 +44,7 @@ public class FavoriteService {
     public List<FavoriteMovieEntity> findAllFavoriteMovies(int userId) {
         List<FavoriteMovieEntity> result = favoriteMovieRepository.findAll()
                 .stream()
-                .filter(favoriteMovie -> favoriteMovie.getId() == userId)
+                .filter(favoriteMovie -> favoriteMovie.getUserId() == userId)
                 .collect(Collectors.toList());
 
         if (result.isEmpty())
@@ -55,51 +55,58 @@ public class FavoriteService {
 
     public void addFavoriteMovie(FavoriteMovieEntity favoriteMovie) {
         Optional<MovieEntity> movieOptional = movieRepository.findById(favoriteMovie.getMovie().getId());
+
         if (!movieOptional.isPresent())
             throw new ResultNotFoundException("There is No Movie with this Id");
 
-       /* List<FavoriteMovieEntity> existingFavorites = favoriteMovieRepository.findByUserIdAndMovieId(
-                favoriteMovie.getUserId(), favoriteMovie.getMovie().getId());
-
-        if (!existingFavorites.isEmpty())
-            throw new ResourceExistsException("This Movie is already in your Favorite List");
-
-
         favoriteMovie.setMovie(movieOptional.get());
-        favoriteMovieRepository.save(favoriteMovie);*/
+        Optional<FavoriteMovieEntity> existingFavorite = Optional.ofNullable(favoriteMovieRepository.findByUserIdAndMovieId(
+                favoriteMovie.getUserId(), favoriteMovie.getMovie().getId()));
+
+        if (existingFavorite.isPresent()) {
+            throw new ResourceExistsException("This Series is already in your Favorite List");
+        }
+
+        favoriteMovieRepository.save(favoriteMovie);
     }
 
     public void addFavoriteSeries(FavoriteSeriesEntity favoriteSeries) {
         Optional<SeriesEntity> seriesOptional = seriesRepository.findById(favoriteSeries.getSeries().getId());
+
         if (!seriesOptional.isPresent()) {
             throw new ResultNotFoundException("There is No Series with this Id");
         }
 
-      /*  List<FavoriteSeriesEntity> existingFavorites = favoriteSeriesRepository.findByUserIdAndSeriesId(
-                favoriteSeries.getUserId(), favoriteSeries.getSeries().getId());
+        favoriteSeries.setSeries(seriesOptional.get());
+        Optional<FavoriteSeriesEntity> existingFavorite = Optional.ofNullable(favoriteSeriesRepository.findByUserIdAndSeriesId(
+                favoriteSeries.getUserId(), favoriteSeries.getSeries().getId()));
 
-        if (!existingFavorites.isEmpty()) {
+        if (existingFavorite.isPresent()) {
             throw new ResourceExistsException("This Series is already in your Favorite List");
         }
 
-        favoriteSeries.setSeries(seriesOptional.get());
         favoriteSeriesRepository.save(favoriteSeries);
-
-       */
     }
 
 
-    public void deleteFavoriteMovieById(int id) {
-        if(!favoriteMovieRepository.existsById(id))
+    public void deleteFavoriteMovie(FavoriteMovieEntity entity) {
+        Optional<FavoriteMovieEntity> favoriteMovie = Optional.ofNullable(favoriteMovieRepository.
+                findByUserIdAndMovieId(entity.getUserId(), entity.getMovie().getId()));
+
+        if (!favoriteMovie.isPresent())
             throw new ResultNotFoundException("There is No Such Movie in your Favorite List");
 
-        favoriteMovieRepository.deleteById(id);
+        favoriteMovieRepository.deleteById(favoriteMovie.get().getId());
     }
-    public void deleteFavoriteSeriesById(int id) {
-        if(!favoriteMovieRepository.existsById(id))
-            throw new ResultNotFoundException("There is No Such Movie in your Favorite List");
+    public void deleteFavoriteSeries(FavoriteSeriesEntity entity) {
+        Optional<FavoriteSeriesEntity> favoriteSeries = Optional.ofNullable(favoriteSeriesRepository.
+                findByUserIdAndSeriesId(entity.getUserId(), entity.getSeries().getId()));
 
-        favoriteSeriesRepository.deleteById(id);
+        if (!favoriteSeries.isPresent()) {
+            throw new ResultNotFoundException("There is No Such Series in your Favorite List");
+        }
+
+        favoriteSeriesRepository.deleteById(favoriteSeries.get().getId());
     }
 }
 
