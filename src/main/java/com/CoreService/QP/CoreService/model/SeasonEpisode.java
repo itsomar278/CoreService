@@ -4,41 +4,42 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
-@Table(name = "movie_season")
+@Table(name = "season_episode")
 @Getter
 @Setter
 @EqualsAndHashCode
-public class MovieSeasonEntity {
+public class SeasonEpisode {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @Column(name = "name", length = 80)
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "movie_id", referencedColumnName = "id", nullable = false)
-    private MovieEntity movie;
+    @JoinColumn(name = "season_id", referencedColumnName = "id", nullable = false)
+    private SeriesSeason season;
 
-    @Column(name = "season_no", nullable = false)
-    private int seasonNo;
+    @Column(name = "episode_no", nullable = false)
+    private Integer episodeNo;
 
     @Column(name = "url", nullable = false)
     private String url;
 
     @Column(name = "publish_date", nullable = false)
-    private Timestamp publishDate;
+    private Date publishDate;
 
-    public MovieSeasonEntity() {
+    public SeasonEpisode() {
     }
 
-    public MovieSeasonEntity(String name, MovieEntity movie, int seasonNo, String url, Timestamp publishDate) {
+    public SeasonEpisode(String name, SeriesSeason season, Integer episodeNo, String url, Date publishDate) {
         this.name = name;
-        this.movie = movie;
-        this.seasonNo = seasonNo;
+        this.season = season;
+        this.episodeNo = episodeNo;
         this.url = url;
         this.publishDate = publishDate;
     }

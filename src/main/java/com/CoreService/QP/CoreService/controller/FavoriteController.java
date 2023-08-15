@@ -8,8 +8,8 @@ import com.CoreService.QP.CoreService.controller.response.FavoriteMovieResponse;
 import com.CoreService.QP.CoreService.controller.response.FavoriteSeriesResponse;
 import com.CoreService.QP.CoreService.mapper.FavoriteMovieMapper;
 import com.CoreService.QP.CoreService.mapper.FavoriteSeriesMapper;
-import com.CoreService.QP.CoreService.model.FavoriteMovieEntity;
-import com.CoreService.QP.CoreService.model.FavoriteSeriesEntity;
+import com.CoreService.QP.CoreService.model.FavoriteMovie;
+import com.CoreService.QP.CoreService.model.FavoriteSeries;
 import com.CoreService.QP.CoreService.service.FavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,59 +30,52 @@ public class FavoriteController {
 
     @GetMapping("user/{userId}/favorite/series")
     public ResponseEntity<List<FavoriteSeriesResponse>> findAllFavoriteSeries(@PathVariable int userId) {
-       var result = favoriteService.findAllFavoriteSeries(userId)
+       List<FavoriteSeries> favorites = favoriteService.findAllFavoriteSeries(userId)
                 .stream()
-                .map(favoriteSeries -> new FavoriteSeriesResponse(favoriteSeries.getSeries().getId(),
-                        favoriteSeries.getSeries().getName()))
                 .collect(Collectors.toList());
+
+       List<FavoriteSeriesResponse> result = favoriteSeriesMapper.entityListToResponseList(favorites);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @GetMapping("user/{userId}/favorite/movies")
     public ResponseEntity<List<FavoriteMovieResponse>> findAllFavoriteMovies(@PathVariable int userId) {
-        var result = favoriteService.findAllFavoriteMovies(userId)
+        List<FavoriteMovie> favorites = favoriteService.findAllFavoriteMovies(userId)
                 .stream()
-                .map(favoriteMovie -> new FavoriteMovieResponse(favoriteMovie.getMovie().getId(),
-                        favoriteMovie.getMovie().getName()))
                 .collect(Collectors.toList());
+
+        List<FavoriteMovieResponse> result= favoriteMovieMapper.entityListToResponseList(favorites);
 
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
     @PostMapping("user/{userId}/favorite/series")
-    public ResponseEntity addFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteSeriesPostRequest request) {
-        FavoriteSeriesEntity dto = favoriteSeriesMapper.requestToEntity(request , userId);
+    public ResponseEntity<HttpStatus> addFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteSeriesPostRequest request) {
+        FavoriteSeries dto = favoriteSeriesMapper.requestToEntity(request , userId);
         favoriteService.addFavoriteSeries(dto);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("user/{userId}/favorite/movies")
-    public ResponseEntity addFavoriteMovie(@PathVariable int userId , @RequestBody FavoriteMoviePostRequest request)
+    public ResponseEntity<HttpStatus> addFavoriteMovie(@PathVariable int userId , @RequestBody FavoriteMoviePostRequest request)
     {
-        FavoriteMovieEntity dto = favoriteMovieMapper.requestToEntity(request , userId);
+        FavoriteMovie dto = favoriteMovieMapper.requestToEntity(request , userId);
         favoriteService.addFavoriteMovie(dto);
-        return new ResponseEntity(HttpStatus.CREATED);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @DeleteMapping("user/{userId}/favorite/series")
-    public ResponseEntity deleteFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteSeriesDeleteRequest request ) {
-        FavoriteSeriesEntity dto = favoriteSeriesMapper.requestToEntity(request,userId);
+    public ResponseEntity<HttpStatus> deleteFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteSeriesDeleteRequest request ) {
+        FavoriteSeries dto = favoriteSeriesMapper.requestToEntity(request,userId);
         favoriteService.deleteFavoriteSeries(dto);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @DeleteMapping("user/{userId}/favorite/movies")
-    public ResponseEntity deleteFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteMovieDeleteRequest request ) {
-        FavoriteMovieEntity dto = favoriteMovieMapper.requestToEntity(request,userId);
+    public ResponseEntity<HttpStatus> deleteFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteMovieDeleteRequest request ) {
+        FavoriteMovie dto = favoriteMovieMapper.requestToEntity(request,userId);
         favoriteService.deleteFavoriteMovie(dto);
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
-
-
-
-
-
-
-
-
 }

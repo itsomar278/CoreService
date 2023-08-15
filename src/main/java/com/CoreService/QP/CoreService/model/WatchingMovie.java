@@ -6,35 +6,36 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.sql.Timestamp;
+import java.util.Date;
 
 @Entity
 @Table(name = "watching_movie")
 @Getter
 @Setter
 @EqualsAndHashCode
-public class WatchingMovieEntity {
+public class WatchingMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "season_id", referencedColumnName = "id", nullable = false)
-    private MovieSeasonEntity season;
+    private MovieSeason season;
 
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id", nullable = false)
-    private MovieEntity movie;
+    private Movie movie;
 
     @Column(name = "user_id", nullable = false)
     private int userId;
 
     @Column(name = "starting_date", nullable = false)
-    private Timestamp startingDate;
+    private Date startingDate;
 
-    public WatchingMovieEntity() {
+    public WatchingMovie() {
     }
-    public WatchingMovieEntity(MovieSeasonEntity season, MovieEntity movie, int userId, Timestamp startingDate) {
+    public WatchingMovie(MovieSeason season, Movie movie, Integer userId, Date startingDate) {
         this.season = season;
         this.movie = movie;
         this.userId = userId;

@@ -10,15 +10,15 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class SeriesEntity {
+public class Series {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
-    private CategoryEntity category;
+    private Category category;
 
     @Column(name = "name", nullable = false, length = 80)
     private String name;
@@ -27,19 +27,19 @@ public class SeriesEntity {
     private String description;
 
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<SeriesSeasonEntity> seasons;
+    private List<SeriesSeason> seasons;
 
-    public SeriesEntity() {
+    public Series() {
     }
 
-    public SeriesEntity(CategoryEntity category, String name, String description, List<SeriesSeasonEntity> seasons) {
+    public Series(Category category, String name, String description, List<SeriesSeason> seasons) {
         this.category = category;
         this.name = name;
         this.description = description;
         this.seasons = seasons;
     }
 
-    public SeriesEntity(CategoryEntity category, String name, String description) {
+    public Series(Category category, String name, String description) {
         this.category = category;
         this.name = name;
         this.description = description;

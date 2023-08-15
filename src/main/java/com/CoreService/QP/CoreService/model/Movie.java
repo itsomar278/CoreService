@@ -8,19 +8,19 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "Movie" )
+@Table(name = "movie" )
 @Getter
 @Setter
 @EqualsAndHashCode
-public class MovieEntity {
+public class Movie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
-    private CategoryEntity category;
+    private Category category;
 
     @Column(name = "name", nullable = false, length = 80)
     private String name;
@@ -29,22 +29,22 @@ public class MovieEntity {
     private String description;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<MovieSeasonEntity> seasons;
+    private List<MovieSeason> seasons;
 
-    public MovieEntity(CategoryEntity category, String name, String description) {
+    public Movie(Category category, String name, String description) {
         this.category = category;
         this.name = name;
         this.description = description;
     }
 
-    public MovieEntity(CategoryEntity category, String name, String description, List<MovieSeasonEntity> seasons) {
+    public Movie(Category category, String name, String description, List<MovieSeason> seasons) {
         this.category = category;
         this.name = name;
         this.description = description;
         this.seasons = seasons;
     }
 
-    public MovieEntity(){
+    public Movie(){
 
     }
 

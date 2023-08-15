@@ -4,24 +4,24 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "Category")
+@Table(name = "category")
 @Getter
 @Setter
 @EqualsAndHashCode
-public class CategoryEntity {
+public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
-    @Column(name = "Type", nullable = false, length = 25)
+    @Column(name = "type", nullable = false, length = 25)
     private String type;
 
-    public CategoryEntity (String type)
+    public Category(String type)
     {
         this.type = type;
     }
 
-    public CategoryEntity() {
+    public Category() {
 
     }
 }

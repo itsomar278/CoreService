@@ -10,25 +10,25 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class FavoriteMovieEntity {
+public class FavoriteMovie {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "movie_id", referencedColumnName = "id", nullable = false)
-    private MovieEntity movie;
+    private Movie movie;
 
     @Column(name = "user_id", nullable = false)
-    private int userId;
+    private Integer userId;
 
-    public FavoriteMovieEntity(MovieEntity movie, int userId) {
+    public FavoriteMovie(Movie movie, Integer userId) {
         this.movie = movie;
         this.userId = userId;
     }
 
-    public FavoriteMovieEntity() {
+    public FavoriteMovie() {
 
     }
 

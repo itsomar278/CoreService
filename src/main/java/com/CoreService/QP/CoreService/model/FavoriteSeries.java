@@ -10,24 +10,24 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode
-public class FavoriteSeriesEntity {
+public class FavoriteSeries {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
     @ManyToOne
     @JoinColumn(name = "series_id", referencedColumnName = "id", nullable = false)
-    private SeriesEntity series;
+    private Series series;
 
     @Column(name = "user_id", nullable = false)
-    private int userId;
+    private Integer userId;
 
-    public FavoriteSeriesEntity(SeriesEntity series, int userId) {
+    public FavoriteSeries(Series series, Integer userId) {
         this.series = series;
         this.userId = userId;
     }
 
-    public FavoriteSeriesEntity() {
+    public FavoriteSeries() {
     }
 }
