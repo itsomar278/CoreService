@@ -1,4 +1,4 @@
-package com.CoreService.QP.CoreService.controller.endpoints;
+package com.CoreService.QP.CoreService.controller;
 
 import com.CoreService.QP.CoreService.controller.requests.FavoriteMovieDeleteRequest;
 import com.CoreService.QP.CoreService.controller.requests.FavoriteMoviePostRequest;
