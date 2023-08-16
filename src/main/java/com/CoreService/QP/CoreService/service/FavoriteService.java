@@ -2,7 +2,6 @@ package com.CoreService.QP.CoreService.service;
 
 import com.CoreService.QP.CoreService.controller.response.PageResponse;
 import com.CoreService.QP.CoreService.exception.customExceptions.EmptyResultException;
-import com.CoreService.QP.CoreService.exception.customExceptions.ResourceExistsException;
 import com.CoreService.QP.CoreService.exception.customExceptions.ResultNotFoundException;
 import com.CoreService.QP.CoreService.model.FavoriteMovie;
 import com.CoreService.QP.CoreService.model.FavoriteSeries;
@@ -14,9 +13,8 @@ import com.CoreService.QP.CoreService.repository.MovieRepository;
 import com.CoreService.QP.CoreService.repository.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class FavoriteService {
@@ -63,46 +61,41 @@ public class FavoriteService {
         return pageResponse;
     }
     public void addFavoriteMovie(FavoriteMovie favoriteMovie) {
-        Optional<Movie> movieOptional = movieRepository.findById(favoriteMovie.getMovie().getId());
+        Integer movieId = favoriteMovie.getMovie().getId();
 
-        if (!movieOptional.isPresent())
-            throw new ResultNotFoundException("There is No Movie with this Id");
+        Movie movieOptional = movieRepository.findById(movieId)
+                .orElseThrow(() ->new ResultNotFoundException("There is No Movie with this Id"));
 
-        favoriteMovie.setMovie(movieOptional.get());
+
+        favoriteMovie.setMovie(movieOptional);
         favoriteMovieRepository.save(favoriteMovie);
     }
 
     public void addFavoriteSeries(FavoriteSeries favoriteSeries) {
-        Optional<Series> seriesOptional = seriesRepository.findById(favoriteSeries.getSeries().getId());
+        Integer seriesId = favoriteSeries.getSeries().getId();
 
-        if (!seriesOptional.isPresent()) {
-            throw new ResultNotFoundException("There is No Series with this Id");
-        }
+        Series seriesOptional = seriesRepository.findById(seriesId)
+                .orElseThrow(() -> new ResultNotFoundException("There is No Series with this Id"));
 
-        favoriteSeries.setSeries(seriesOptional.get());
+        favoriteSeries.setSeries(seriesOptional);
 
         favoriteSeriesRepository.save(favoriteSeries);
     }
 
 
     public void deleteFavoriteMovie(FavoriteMovie entity) {
-        Optional<FavoriteMovie> favoriteMovie = favoriteMovieRepository.
-                findByUserIdAndMovieId(entity.getUserId(), entity.getMovie().getId());
+        FavoriteMovie favoriteMovie = favoriteMovieRepository.
+                findByUserIdAndMovieId(entity.getUserId(), entity.getMovie().getId())
+                .orElseThrow(() -> new ResultNotFoundException("There is No Such Movie in your Favorite List"));
 
-        if (!favoriteMovie.isPresent())
-            throw new ResultNotFoundException("There is No Such Movie in your Favorite List");
-
-        favoriteMovieRepository.deleteById(favoriteMovie.get().getId());
+        favoriteMovieRepository.deleteById(favoriteMovie.getId());
     }
     public void deleteFavoriteSeries(FavoriteSeries entity) {
-        Optional<FavoriteSeries> favoriteSeries = favoriteSeriesRepository.
-                findByUserIdAndSeriesId(entity.getUserId(), entity.getSeries().getId());
+        FavoriteSeries favoriteSeries = favoriteSeriesRepository.
+                findByUserIdAndSeriesId(entity.getUserId(), entity.getSeries().getId())
+                .orElseThrow(()-> new ResultNotFoundException("There is No Such Series in your Favorite List"));
 
-        if (!favoriteSeries.isPresent()) {
-            throw new ResultNotFoundException("There is No Such Series in your Favorite List");
-        }
-
-        favoriteSeriesRepository.deleteById(favoriteSeries.get().getId());
+        favoriteSeriesRepository.deleteById(favoriteSeries.getId());
     }
 }
 
