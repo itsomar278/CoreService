@@ -1,8 +1,8 @@
 package com.CoreService.QP.CoreService.model;
-
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
-
+import jakarta.validation.constraints.NotNull;
 @Entity
 @Table(name = "category")
 @Getter

@@ -2,6 +2,7 @@ package com.CoreService.QP.CoreService.model;
 
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.*;
 
 import java.sql.Date;
@@ -29,9 +30,6 @@ import java.util.List;
         @Column(name = "season_no", nullable = false)
         private Integer seasonNo;
 
-        @Column(name = "url", nullable = false)
-        private String url;
-
         @Column(name = "publish_date", nullable = false)
         private Date publishDate;
 
@@ -45,7 +43,6 @@ import java.util.List;
         this.name = name;
         this.series = series;
         this.seasonNo = seasonNo;
-        this.url = url;
         this.publishDate = publishDate;
         this.episodes = episodes;
     }
@@ -54,7 +51,6 @@ import java.util.List;
         this.name = name;
         this.series = series;
         this.seasonNo = seasonNo;
-        this.url = url;
         this.publishDate = publishDate;
     }
 

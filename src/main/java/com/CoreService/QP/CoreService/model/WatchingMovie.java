@@ -1,8 +1,11 @@
 package com.CoreService.QP.CoreService.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NonNull;
 import lombok.Setter;
 
 import java.sql.Timestamp;
@@ -27,6 +30,7 @@ public class WatchingMovie {
     @JoinColumn(name = "movie_id", referencedColumnName = "id", nullable = false)
     private Movie movie;
 
+    @NotNull(message = "Each watching movie should have a user id")
     @Column(name = "user_id", nullable = false)
     private int userId;
 

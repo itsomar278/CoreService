@@ -11,15 +11,19 @@ import com.CoreService.QP.CoreService.mapper.FavoriteSeriesMapper;
 import com.CoreService.QP.CoreService.model.FavoriteMovie;
 import com.CoreService.QP.CoreService.model.FavoriteSeries;
 import com.CoreService.QP.CoreService.service.FavoriteService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.xml.validation.Validator;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @RestController
+@Validated
 public class FavoriteController {
     @Autowired
     private FavoriteService favoriteService;
@@ -35,7 +39,6 @@ public class FavoriteController {
                 .collect(Collectors.toList());
 
        List<FavoriteSeriesResponse> result = favoriteSeriesMapper.entityListToResponseList(favorites);
-
         return new ResponseEntity<>(result, HttpStatus.OK);
     }
 
@@ -51,14 +54,14 @@ public class FavoriteController {
     }
 
     @PostMapping("user/{userId}/favorite/series")
-    public ResponseEntity<HttpStatus> addFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteSeriesPostRequest request) {
+    public ResponseEntity<HttpStatus> addFavoriteSeries(@PathVariable int userId , @RequestBody @Valid FavoriteSeriesPostRequest request) {
         FavoriteSeries dto = favoriteSeriesMapper.requestToEntity(request , userId);
         favoriteService.addFavoriteSeries(dto);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("user/{userId}/favorite/movies")
-    public ResponseEntity<HttpStatus> addFavoriteMovie(@PathVariable int userId , @RequestBody FavoriteMoviePostRequest request)
+    public ResponseEntity<HttpStatus> addFavoriteMovie(@PathVariable int userId , @RequestBody @Valid FavoriteMoviePostRequest request)
     {
         FavoriteMovie dto = favoriteMovieMapper.requestToEntity(request , userId);
         favoriteService.addFavoriteMovie(dto);
@@ -66,7 +69,7 @@ public class FavoriteController {
     }
 
     @DeleteMapping("user/{userId}/favorite/series")
-    public ResponseEntity<HttpStatus> deleteFavoriteSeries(@PathVariable int userId , @RequestBody FavoriteSeriesDeleteRequest request ) {
+    public ResponseEntity<HttpStatus> deleteFavoriteSeries(@PathVariable int userId , @RequestBody @Valid FavoriteSeriesDeleteRequest request ) {
         FavoriteSeries dto = favoriteSeriesMapper.requestToEntity(request,userId);
         favoriteService.deleteFavoriteSeries(dto);
         return new ResponseEntity<>(HttpStatus.OK);

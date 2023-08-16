@@ -1,6 +1,9 @@
 package com.CoreService.QP.CoreService.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.sql.Timestamp;
@@ -29,6 +32,7 @@ public class SeasonEpisode {
 
     @Column(name = "url", nullable = false)
     private String url;
+
 
     @Column(name = "publish_date", nullable = false)
     private Date publishDate;
