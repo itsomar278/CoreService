@@ -9,7 +9,8 @@ import java.util.Optional;
 
 @Repository
 public interface MovieRepository extends JpaRepository<Movie,Integer> {
-    @Query(value = "SELECT * FROM core.movie WHERE id = ?1 AND is_deleted = false", nativeQuery = true)
+
+    @Query("SELECT m FROM Movie m WHERE m.id = ?1 AND m.isDeleted = false")
     @Override
     Optional<Movie> findById(Integer id);
 }

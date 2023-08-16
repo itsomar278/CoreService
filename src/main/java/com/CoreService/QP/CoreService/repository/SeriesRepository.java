@@ -9,7 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface SeriesRepository extends JpaRepository<Series,Integer> {
-    @Query(value = "SELECT * FROM core.series WHERE id = ? AND is_deleted = false", nativeQuery = true)
+    @Query("SELECT s FROM Series s WHERE s.id = ?1 AND s.isDeleted = false")
     @Override
-    Optional<Series> findById(Integer id);
-}
+    Optional<Series> findById(Integer id);}
