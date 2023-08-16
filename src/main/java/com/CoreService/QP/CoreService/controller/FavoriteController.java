@@ -18,10 +18,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
-import javax.xml.validation.Validator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -50,16 +47,16 @@ public class FavoriteController {
 
     @PostMapping("user/{userId}/favorite/series")
     public ResponseEntity<HttpStatus> addFavoriteSeries(@PathVariable int userId , @RequestBody @Valid FavoriteSeriesPostRequest request) {
-        FavoriteSeries dto = favoriteSeriesMapper.requestToEntity(request , userId);
-        favoriteService.addFavoriteSeries(dto);
+        FavoriteSeries favorite = favoriteSeriesMapper.requestToEntity(request , userId);
+        favoriteService.addFavoriteSeries(favorite);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @PostMapping("user/{userId}/favorite/movies")
     public ResponseEntity<HttpStatus> addFavoriteMovie(@PathVariable int userId , @RequestBody @Valid FavoriteMoviePostRequest request)
     {
-        FavoriteMovie dto = favoriteMovieMapper.requestToEntity(request , userId);
-        favoriteService.addFavoriteMovie(dto);
+        FavoriteMovie favorite = favoriteMovieMapper.requestToEntity(request , userId);
+        favoriteService.addFavoriteMovie(favorite);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 

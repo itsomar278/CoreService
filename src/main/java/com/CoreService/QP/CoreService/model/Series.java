@@ -28,6 +28,9 @@ public class Series {
     @Column(name = "description", columnDefinition = "text")
     private String description;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeriesSeason> seasons;
 

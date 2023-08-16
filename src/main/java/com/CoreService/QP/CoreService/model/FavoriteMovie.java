@@ -20,6 +20,9 @@ public class FavoriteMovie {
     @JoinColumn(name = "movie_id", referencedColumnName = "id", nullable = false)
     private Movie movie;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 

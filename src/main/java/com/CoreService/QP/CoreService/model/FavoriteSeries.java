@@ -23,6 +23,9 @@ public class FavoriteSeries {
     @Column(name = "user_id", nullable = false)
     private Integer userId;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     public FavoriteSeries(Series series, Integer userId) {
         this.series = series;
         this.userId = userId;

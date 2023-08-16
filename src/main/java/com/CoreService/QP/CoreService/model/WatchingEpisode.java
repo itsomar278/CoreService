@@ -27,6 +27,9 @@ public class WatchingEpisode {
     @JoinColumn(name = "season_id", referencedColumnName = "id", nullable = false)
     private SeriesSeason season;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     @ManyToOne
     @JoinColumn(name = "episode_id", referencedColumnName = "id", nullable = false)
     private SeasonEpisode episode;

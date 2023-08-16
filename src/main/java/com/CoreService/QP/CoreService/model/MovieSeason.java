@@ -34,6 +34,9 @@ public class MovieSeason {
     @Column(name = "publish_date", nullable = false)
     private Date publishDate;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     public MovieSeason() {
     }
 

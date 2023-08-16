@@ -27,6 +27,9 @@ public class Movie {
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     @Column(name = "description")
     private String description;
 

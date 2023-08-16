@@ -12,6 +12,8 @@ import com.CoreService.QP.CoreService.repository.FavoriteSeriesRepository;
 import com.CoreService.QP.CoreService.repository.MovieRepository;
 import com.CoreService.QP.CoreService.repository.SeriesRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -28,7 +30,8 @@ public class FavoriteService {
     private SeriesRepository seriesRepository;
 
     public PageResponse findAllFavoriteSeries(int userId , int page , int size) {
-        List<FavoriteSeries> result = favoriteSeriesRepository.findByUserId(userId , page , size);
+        Pageable pagination = PageRequest.of(page, size);
+        List<FavoriteSeries> result = favoriteSeriesRepository.findByUserId(userId , pagination);
 
         if (result.isEmpty())
             throw new EmptyResultException("There is No Favorite Series for this User");
@@ -45,7 +48,8 @@ public class FavoriteService {
     }
 
     public PageResponse findAllFavoriteMovies(int userId, int page, int size) {
-        List<FavoriteMovie> result = favoriteMovieRepository.findByUserId(userId, page, size);
+        Pageable pagination = PageRequest.of(page, size);
+        List<FavoriteMovie> result = favoriteMovieRepository.findByUserId(userId,pagination);
 
         if (result.isEmpty()) {
             throw new EmptyResultException("There are No Favorite Movies for this User");

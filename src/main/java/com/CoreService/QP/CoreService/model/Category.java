@@ -16,6 +16,10 @@ public class Category {
     @Column(name = "type", nullable = false, length = 25)
     private String type;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
+
     public Category(String type)
     {
         this.type = type;

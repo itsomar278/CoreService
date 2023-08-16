@@ -34,6 +34,9 @@ public class WatchingMovie {
     @Column(name = "user_id", nullable = false)
     private int userId;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
     @Column(name = "starting_date", nullable = false)
     private Date startingDate;
 

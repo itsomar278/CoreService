@@ -27,6 +27,9 @@ import java.util.List;
         @JoinColumn(name = "series_id", referencedColumnName = "id", nullable = false)
         private Series series;
 
+        @Column(name = "is_deleted", nullable = false)
+        private Boolean isDeleted = false;
+
         @Column(name = "season_no", nullable = false)
         private Integer seasonNo;
 

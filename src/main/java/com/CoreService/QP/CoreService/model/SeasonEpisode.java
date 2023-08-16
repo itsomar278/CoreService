@@ -30,6 +30,10 @@ public class SeasonEpisode {
     @Column(name = "episode_no", nullable = false)
     private Integer episodeNo;
 
+    @Column(name = "is_deleted", nullable = false)
+    private Boolean isDeleted = false;
+
+
     @Column(name = "url", nullable = false)
     private String url;
 
