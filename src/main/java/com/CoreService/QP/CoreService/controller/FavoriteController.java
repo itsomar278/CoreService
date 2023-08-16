@@ -6,6 +6,7 @@ import com.CoreService.QP.CoreService.controller.requests.FavoriteSeriesDeleteRe
 import com.CoreService.QP.CoreService.controller.requests.FavoriteSeriesPostRequest;
 import com.CoreService.QP.CoreService.controller.response.FavoriteMovieResponse;
 import com.CoreService.QP.CoreService.controller.response.FavoriteSeriesResponse;
+import com.CoreService.QP.CoreService.controller.response.PageResponse;
 import com.CoreService.QP.CoreService.mapper.FavoriteMovieMapper;
 import com.CoreService.QP.CoreService.mapper.FavoriteSeriesMapper;
 import com.CoreService.QP.CoreService.model.FavoriteMovie;
@@ -33,24 +34,18 @@ public class FavoriteController {
     private FavoriteMovieMapper favoriteMovieMapper;
 
     @GetMapping("user/{userId}/favorite/series")
-    public ResponseEntity<List<FavoriteSeriesResponse>> findAllFavoriteSeries(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size)
-    {       List<FavoriteSeries> favorites = favoriteService.findAllFavoriteSeries(userId , page , size)
-                .stream()
-                .collect(Collectors.toList());
-
-       List<FavoriteSeriesResponse> result = favoriteSeriesMapper.entityListToResponseList(favorites);
-        return new ResponseEntity<>(result, HttpStatus.OK);
+    public ResponseEntity<PageResponse<FavoriteSeriesResponse>> findAllFavoriteSeries(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size)
+    {       PageResponse favorites = favoriteService.findAllFavoriteSeries(userId,page , size);
+            favorites.setContent(favoriteSeriesMapper.entityListToResponseList((List<FavoriteSeries>) favorites.getContent()));
+        return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 
     @GetMapping("user/{userId}/favorite/movies")
-    public ResponseEntity<List<FavoriteMovieResponse>> findAllFavoriteMovies(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
-        List<FavoriteMovie> favorites = favoriteService.findAllFavoriteMovies(userId,page , size)
-                .stream()
-                .collect(Collectors.toList());
+    public ResponseEntity<PageResponse<FavoriteMovieResponse>> findAllFavoriteMovies(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        PageResponse favorites = favoriteService.findAllFavoriteMovies(userId, page, size);
+        favorites.setContent(favoriteMovieMapper.entityListToResponseList((List<FavoriteMovie>) favorites.getContent()));
 
-        List<FavoriteMovieResponse> result= favoriteMovieMapper.entityListToResponseList(favorites);
-
-        return new ResponseEntity<>(result, HttpStatus.OK);
+        return new ResponseEntity<>(favorites, HttpStatus.OK);
     }
 
     @PostMapping("user/{userId}/favorite/series")

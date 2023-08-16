@@ -16,12 +16,15 @@ public interface FavoriteMovieRepository extends JpaRepository<FavoriteMovie, In
     Optional<FavoriteMovie> findByUserIdAndMovieId(int userId, int movieId);
 
     @Query(value = "SELECT * FROM core.favorite_movie WHERE user_id = ?1 AND is_deleted = false LIMIT ?3 OFFSET ?2 * ?3 ", nativeQuery = true)
-    Optional<List<FavoriteMovie>> findByUserId(int userId ,int page , int size);
+    List<FavoriteMovie> findByUserId(int userId ,int page , int size);
 
     @Modifying
     @Query(value = "UPDATE core.favorite_movie SET is_deleted = true WHERE id = ?", nativeQuery = true)
     @Override
     void deleteById(Integer integer);
+
+    @Query(value = "SELECT COUNT(*) FROM core.favorite_movie WHERE is_deleted = false AND user_id = ?1", nativeQuery = true)
+    int countByUserId(int userId);
 
 
 }

@@ -1,5 +1,6 @@
 package com.CoreService.QP.CoreService.service;
 
+import com.CoreService.QP.CoreService.controller.response.PageResponse;
 import com.CoreService.QP.CoreService.exception.customExceptions.EmptyResultException;
 import com.CoreService.QP.CoreService.exception.customExceptions.ResourceExistsException;
 import com.CoreService.QP.CoreService.exception.customExceptions.ResultNotFoundException;
@@ -28,24 +29,39 @@ public class FavoriteService {
     @Autowired
     private SeriesRepository seriesRepository;
 
-    public List<FavoriteSeries> findAllFavoriteSeries(int userId , int page , int size) {
-        Optional<List<FavoriteSeries>> result = favoriteSeriesRepository.findByUserId(userId , page , size);
+    public PageResponse findAllFavoriteSeries(int userId , int page , int size) {
+        List<FavoriteSeries> result = favoriteSeriesRepository.findByUserId(userId , page , size);
 
         if (result.isEmpty())
             throw new EmptyResultException("There is No Favorite Series for this User");
 
-        return result.get();
+        PageResponse pageResponse = new PageResponse();
+        pageResponse.setContent(result);
+        pageResponse.setCurrentPage(page);
+        pageResponse.setSize(size);
+        pageResponse.setTotalElements(favoriteSeriesRepository.countByUserId(userId));
+        pageResponse.setTotalPages((int) Math.ceil((double) pageResponse.getTotalElements() / size));
+
+
+        return pageResponse;
     }
 
-    public List<FavoriteMovie> findAllFavoriteMovies(int userId , int page , int size) {
-        Optional<List<FavoriteMovie>> result = favoriteMovieRepository.findByUserId(userId,page,size);
+    public PageResponse findAllFavoriteMovies(int userId, int page, int size) {
+        List<FavoriteMovie> result = favoriteMovieRepository.findByUserId(userId, page, size);
 
-        if (result.isEmpty())
-            throw new EmptyResultException("There is No Favorite Movies for this User");
+        if (result.isEmpty()) {
+            throw new EmptyResultException("There are No Favorite Movies for this User");
+        }
 
-        return result.get();
+        PageResponse pageResponse = new PageResponse();
+        pageResponse.setContent(result);
+        pageResponse.setCurrentPage(page);
+        pageResponse.setSize(size);
+        pageResponse.setTotalElements(favoriteMovieRepository.countByUserId(userId));
+        pageResponse.setTotalPages((int) Math.ceil((double) pageResponse.getTotalElements() / size));
+
+        return pageResponse;
     }
-
     public void addFavoriteMovie(FavoriteMovie favoriteMovie) {
         Optional<Movie> movieOptional = movieRepository.findById(favoriteMovie.getMovie().getId());
 
