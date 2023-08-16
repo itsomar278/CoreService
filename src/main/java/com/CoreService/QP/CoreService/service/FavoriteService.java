@@ -28,22 +28,22 @@ public class FavoriteService {
     @Autowired
     private SeriesRepository seriesRepository;
 
-    public List<FavoriteSeries> findAllFavoriteSeries(int userId) {
-        List<FavoriteSeries> result = favoriteSeriesRepository.findByUserId(userId);
+    public List<FavoriteSeries> findAllFavoriteSeries(int userId , int page , int size) {
+        Optional<List<FavoriteSeries>> result = favoriteSeriesRepository.findByUserId(userId , page , size);
 
         if (result.isEmpty())
             throw new EmptyResultException("There is No Favorite Series for this User");
 
-        return result;
+        return result.get();
     }
 
-    public List<FavoriteMovie> findAllFavoriteMovies(int userId) {
-        List<FavoriteMovie> result = favoriteMovieRepository.findByUserId(userId);
+    public List<FavoriteMovie> findAllFavoriteMovies(int userId , int page , int size) {
+        Optional<List<FavoriteMovie>> result = favoriteMovieRepository.findByUserId(userId,page,size);
 
         if (result.isEmpty())
             throw new EmptyResultException("There is No Favorite Movies for this User");
 
-        return result;
+        return result.get();
     }
 
     public void addFavoriteMovie(FavoriteMovie favoriteMovie) {
@@ -70,8 +70,8 @@ public class FavoriteService {
 
 
     public void deleteFavoriteMovie(FavoriteMovie entity) {
-        Optional<FavoriteMovie> favoriteMovie = Optional.ofNullable(favoriteMovieRepository.
-                findByUserIdAndMovieId(entity.getUserId(), entity.getMovie().getId()));
+        Optional<FavoriteMovie> favoriteMovie = favoriteMovieRepository.
+                findByUserIdAndMovieId(entity.getUserId(), entity.getMovie().getId());
 
         if (!favoriteMovie.isPresent())
             throw new ResultNotFoundException("There is No Such Movie in your Favorite List");
@@ -79,8 +79,8 @@ public class FavoriteService {
         favoriteMovieRepository.deleteById(favoriteMovie.get().getId());
     }
     public void deleteFavoriteSeries(FavoriteSeries entity) {
-        Optional<FavoriteSeries> favoriteSeries = Optional.ofNullable(favoriteSeriesRepository.
-                findByUserIdAndSeriesId(entity.getUserId(), entity.getSeries().getId()));
+        Optional<FavoriteSeries> favoriteSeries = favoriteSeriesRepository.
+                findByUserIdAndSeriesId(entity.getUserId(), entity.getSeries().getId());
 
         if (!favoriteSeries.isPresent()) {
             throw new ResultNotFoundException("There is No Such Series in your Favorite List");

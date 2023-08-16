@@ -29,8 +29,8 @@ public class FavoriteController {
     private FavoriteMovieMapper favoriteMovieMapper;
 
     @GetMapping("user/{userId}/favorite/series")
-    public ResponseEntity<List<FavoriteSeriesResponse>> findAllFavoriteSeries(@PathVariable int userId) {
-       List<FavoriteSeries> favorites = favoriteService.findAllFavoriteSeries(userId)
+    public ResponseEntity<List<FavoriteSeriesResponse>> findAllFavoriteSeries(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size)
+    {       List<FavoriteSeries> favorites = favoriteService.findAllFavoriteSeries(userId , page , size)
                 .stream()
                 .collect(Collectors.toList());
 
@@ -40,8 +40,8 @@ public class FavoriteController {
     }
 
     @GetMapping("user/{userId}/favorite/movies")
-    public ResponseEntity<List<FavoriteMovieResponse>> findAllFavoriteMovies(@PathVariable int userId) {
-        List<FavoriteMovie> favorites = favoriteService.findAllFavoriteMovies(userId)
+    public ResponseEntity<List<FavoriteMovieResponse>> findAllFavoriteMovies(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size) {
+        List<FavoriteMovie> favorites = favoriteService.findAllFavoriteMovies(userId,page , size)
                 .stream()
                 .collect(Collectors.toList());
 
