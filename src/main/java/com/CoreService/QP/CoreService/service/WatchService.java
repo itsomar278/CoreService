@@ -2,6 +2,7 @@ package com.CoreService.QP.CoreService.service;
 
 import com.CoreService.QP.CoreService.controller.response.*;
 import com.CoreService.QP.CoreService.exception.customExceptions.EmptyResultException;
+import com.CoreService.QP.CoreService.model.Movie;
 import com.CoreService.QP.CoreService.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -27,8 +28,8 @@ public class WatchService {
     private WatchingMovieRepository watchingMovieRepository;
 
 
-    public Page<MostFavoriteMovie> getMostFavoriteMovie(int page, int size) {
-        Page<MostFavoriteMovie> mostFavoriteMovies = favoriteMovieRepository.findMostFavorite(PageRequest.of(page, size));
+    public Page<Movie> getMostFavoriteMovie(int page, int size) {
+        Page<Movie> mostFavoriteMovies = favoriteMovieRepository.findMostFavorite(PageRequest.of(page, size));
 
         if (mostFavoriteMovies.hasContent())
             return mostFavoriteMovies;

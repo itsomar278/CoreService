@@ -14,7 +14,6 @@ import lombok.Setter;
 public class MostFavoriteSeries {
     private Series series;
     private Long count;
-
     public MostFavoriteSeries( Long count , Series series)
     {
         this.series = series;

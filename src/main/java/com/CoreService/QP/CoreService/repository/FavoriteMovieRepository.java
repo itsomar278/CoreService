@@ -1,6 +1,7 @@
 package com.CoreService.QP.CoreService.repository;
 
 import com.CoreService.QP.CoreService.controller.response.MostFavoriteMovie;
+import com.CoreService.QP.CoreService.model.Movie;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,14 +33,13 @@ public interface FavoriteMovieRepository extends PagingAndSortingRepository<Favo
     int countByUserId(int userId);
 
 
-    @Query("SELECT NEW com.CoreService.QP.CoreService.controller.response.MostFavoriteMovie(" +
-            "m.id, " +
-            "COUNT(fm.id), " +
+    @Query("SELECT NEW com.CoreService.QP.CoreService.model.Movie(" +
+            "COUNT(fm.movie.id), " +
             "m) " +
             "FROM FavoriteMovie fm " +
             "JOIN fm.movie m " +
             "WHERE fm.isDeleted = false " +
-            "GROUP BY m.id " +
-            "ORDER BY COUNT(fm.id) DESC")
-    Page<MostFavoriteMovie> findMostFavorite(Pageable pageable);
+            "GROUP BY fm.movie.id " +
+            "ORDER BY COUNT(fm.movie.id) DESC")
+    Page<Movie> findMostFavorite(Pageable pageable);
 }

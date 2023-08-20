@@ -1,6 +1,7 @@
 package com.CoreService.QP.CoreService.controller;
 
 import com.CoreService.QP.CoreService.controller.response.*;
+import com.CoreService.QP.CoreService.model.Movie;
 import com.CoreService.QP.CoreService.service.WatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,9 @@ public class SuggestionsController {
     private WatchService watchService;
 
     @GetMapping("suggestions/most-favorite/movies")
-    public ResponseEntity<Page<MostFavoriteMovie>> getMostFavorite(@RequestParam int page , @RequestParam int size)
+    public ResponseEntity<Page<Movie>> getMostFavorite(@RequestParam int page , @RequestParam int size)
     {
-        Page<MostFavoriteMovie> most = watchService.getMostFavoriteMovie(page ,size);
+        Page<Movie> most = watchService.getMostFavoriteMovie(page ,size);
         return new ResponseEntity<>(most, HttpStatus.OK);
     }
     @GetMapping("suggestions/most-Watched/movies")

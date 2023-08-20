@@ -31,6 +31,9 @@ public class Movie {
     @Column(name = "description")
     private String description;
 
+    @Transient
+    Long count ;
+
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
     private List<MovieSeason> seasons;
@@ -47,6 +50,14 @@ public class Movie {
         this.name = name;
         this.description = description;
         this.seasons = seasons;
+    }
+
+    public Movie(Long count , Movie movie){
+        this.id = movie.getId();
+        this.name = movie.getName();
+        this.description = movie.getDescription();
+        this.count = count;
+        this.categories = movie.categories;
     }
 
     public Movie(){
