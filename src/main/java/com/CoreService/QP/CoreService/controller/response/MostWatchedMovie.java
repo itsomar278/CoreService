@@ -3,6 +3,8 @@ package com.CoreService.QP.CoreService.controller.response;
 import com.CoreService.QP.CoreService.model.Category;
 import com.CoreService.QP.CoreService.model.Movie;
 import com.CoreService.QP.CoreService.model.MovieCategory;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class MostWatchedMovie {
     private Movie movie;
     private Long count;
