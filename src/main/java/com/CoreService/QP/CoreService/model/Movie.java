@@ -1,5 +1,7 @@
 package com.CoreService.QP.CoreService.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -20,10 +22,6 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "category_id", referencedColumnName = "id", nullable = false)
-    private Category category;
-
     @Column(name = "name", nullable = false, length = 80)
     private String name;
 
@@ -34,16 +32,18 @@ public class Movie {
     private String description;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
     private List<MovieSeason> seasons;
 
-    public Movie(Category category, String name, String description) {
-        this.category = category;
+    @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<MovieCategory> categories;
+
+    public Movie( String name, String description) {
         this.name = name;
         this.description = description;
     }
 
-    public Movie(Category category, String name, String description, List<MovieSeason> seasons) {
-        this.category = category;
+    public Movie(String name, String description, List<MovieSeason> seasons) {
         this.name = name;
         this.description = description;
         this.seasons = seasons;

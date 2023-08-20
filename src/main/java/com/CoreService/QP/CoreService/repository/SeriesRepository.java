@@ -12,3 +12,5 @@ public interface SeriesRepository extends JpaRepository<Series,Integer> {
     @Query("SELECT s FROM Series s WHERE s.id = ?1 AND s.isDeleted = false")
     @Override
     Optional<Series> findById(Integer id);}
+
+

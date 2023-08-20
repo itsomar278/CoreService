@@ -6,12 +6,14 @@ import com.CoreService.QP.CoreService.controller.requests.FavoriteSeriesDeleteRe
 import com.CoreService.QP.CoreService.controller.requests.FavoriteSeriesPostRequest;
 import com.CoreService.QP.CoreService.controller.response.FavoriteMovieResponse;
 import com.CoreService.QP.CoreService.controller.response.FavoriteSeriesResponse;
+import com.CoreService.QP.CoreService.controller.response.MostFavoriteMovie;
 import com.CoreService.QP.CoreService.controller.response.PageResponse;
 import com.CoreService.QP.CoreService.mapper.FavoriteMovieMapper;
 import com.CoreService.QP.CoreService.mapper.FavoriteSeriesMapper;
 import com.CoreService.QP.CoreService.model.FavoriteMovie;
 import com.CoreService.QP.CoreService.model.FavoriteSeries;
 import com.CoreService.QP.CoreService.service.FavoriteService;
+import com.CoreService.QP.CoreService.service.WatchService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -29,6 +31,8 @@ public class FavoriteController {
     private FavoriteSeriesMapper favoriteSeriesMapper;
     @Autowired
     private FavoriteMovieMapper favoriteMovieMapper;
+    @Autowired
+    private WatchService watchService;
 
     @GetMapping("user/{userId}/favorite/series")
     public ResponseEntity<PageResponse<FavoriteSeriesResponse>> findAllFavoriteSeries(@PathVariable int userId, @RequestParam(defaultValue = "0") int page, @RequestParam(defaultValue = "5") int size)
@@ -59,6 +63,7 @@ public class FavoriteController {
         favoriteService.addFavoriteMovie(favorite);
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
+
 
     @DeleteMapping("user/{userId}/favorite/series")
     public ResponseEntity<HttpStatus> deleteFavoriteSeries(@PathVariable int userId , @RequestBody @Valid FavoriteSeriesDeleteRequest request ) {
