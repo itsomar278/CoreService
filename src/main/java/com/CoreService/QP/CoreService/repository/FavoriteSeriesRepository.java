@@ -1,6 +1,7 @@
 package com.CoreService.QP.CoreService.repository;
 
 import com.CoreService.QP.CoreService.controller.response.MostFavoriteSeries;
+import com.CoreService.QP.CoreService.model.Series;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -30,13 +31,12 @@ public interface FavoriteSeriesRepository extends PagingAndSortingRepository<Fav
     @Query("SELECT COUNT(fs) FROM FavoriteSeries fs WHERE fs.isDeleted = false AND fs.userId = ?1")
     int countByUserId(int userId);
 
-    @Query("SELECT NEW com.CoreService.QP.CoreService.controller.response.MostFavoriteSeries(" +
-            "COUNT(fs.id), " +
-            "s) " +
+    @Query("SELECT NEW com.CoreService.QP.CoreService.model.Series(" +
+            "fs.series, " +
+            "COUNT(fs.series)) " +
             "FROM FavoriteSeries fs " +
-            "JOIN fs.series s " +
             "WHERE fs.isDeleted = false " +
-            "GROUP BY s.id " +
-            "ORDER BY COUNT(fs.id) DESC")
-    Page<MostFavoriteSeries> findMostFavoriteSeries(Pageable pageable);
+            "GROUP BY fs.series " +
+            "ORDER BY COUNT(fs.series) DESC")
+    Page<Series> findMostFavoriteSeries(Pageable pageable);
 }

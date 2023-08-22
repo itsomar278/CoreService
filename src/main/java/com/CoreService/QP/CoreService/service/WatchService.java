@@ -3,6 +3,7 @@ package com.CoreService.QP.CoreService.service;
 import com.CoreService.QP.CoreService.controller.response.*;
 import com.CoreService.QP.CoreService.exception.customExceptions.EmptyResultException;
 import com.CoreService.QP.CoreService.model.Movie;
+import com.CoreService.QP.CoreService.model.Series;
 import com.CoreService.QP.CoreService.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -37,8 +38,8 @@ public class WatchService {
         throw new EmptyResultException("There is No Favorite Movies");
     }
 
-    public Page<MostWatchedMovie> getMostWatchedMovie(int page, int size) {
-        Page<MostWatchedMovie> mostWatchedMovies = watchingMovieRepository.findMostWatched(PageRequest.of(page, size));
+    public Page<Movie> getMostWatchedMovie(int page, int size) {
+        Page<Movie> mostWatchedMovies = watchingMovieRepository.findMostWatched(PageRequest.of(page, size));
 
         if (mostWatchedMovies.hasContent())
             return mostWatchedMovies;
@@ -46,8 +47,8 @@ public class WatchService {
         throw new EmptyResultException("There is No Watched Movies");
     }
 
-    public Page<MostFavoriteSeries> getMostFavoriteSeries(int page, int size) {
-        Page<MostFavoriteSeries> mostFavoriteSeriesPage = favoriteSeriesRepository.findMostFavoriteSeries(PageRequest.of(page, size));
+    public Page<Series> getMostFavoriteSeries(int page, int size) {
+        Page<Series> mostFavoriteSeriesPage = favoriteSeriesRepository.findMostFavoriteSeries(PageRequest.of(page, size));
 
         if (mostFavoriteSeriesPage.hasContent())
             return mostFavoriteSeriesPage;
@@ -55,8 +56,8 @@ public class WatchService {
         throw new EmptyResultException("There is No Favorite Series");
     }
 
-    public Page<MostWatchedSeries> getMostWatchedSeries(int page, int size) {
-        Page<MostWatchedSeries> mostWatchedSeriesPage = watchingEpisodeRepository.findMostWatchedSeries(PageRequest.of(page, size));
+    public Page<Series> getMostWatchedSeries(int page, int size) {
+            Page<Series> mostWatchedSeriesPage = watchingEpisodeRepository.findMostWatchedSeries(PageRequest.of(page, size));
 
         if (mostWatchedSeriesPage.hasContent())
             return mostWatchedSeriesPage;
@@ -65,13 +66,13 @@ public class WatchService {
 
     }
 
-    public Page<TrendingMovie> getTrendingMovie(int page , int size)
+    public Page<Movie> getTrendingMovie(int page , int size)
     {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_YEAR, -1); // Subtract one week
         Date lastWeekStartDate = calendar.getTime();
 
-        Page<TrendingMovie> trendingMovies = watchingMovieRepository.findTrendingMovie(PageRequest.of(page, size) ,lastWeekStartDate );
+        Page<Movie> trendingMovies = watchingMovieRepository.findTrendingMovie(PageRequest.of(page, size) ,lastWeekStartDate );
 
         if (trendingMovies.hasContent())
             return trendingMovies;
@@ -79,13 +80,13 @@ public class WatchService {
         throw new EmptyResultException("There is No Trending Movies");
     }
 
-    public Page<TrendingSeries> getTrendingSeries(int page , int size)
+    public Page<Series> getTrendingSeries(int page , int size)
     {
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.WEEK_OF_YEAR, -1); // Subtract one week
         Date lastWeekStartDate = calendar.getTime();
 
-            Page<TrendingSeries> trendingSeries = watchingEpisodeRepository.findTrendingSeries(PageRequest.of(page, size) ,lastWeekStartDate );
+            Page<Series> trendingSeries = watchingEpisodeRepository.findTrendingSeries(PageRequest.of(page, size) ,lastWeekStartDate );
 
             if (trendingSeries.hasContent())
                 return trendingSeries;

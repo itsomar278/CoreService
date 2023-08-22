@@ -2,6 +2,7 @@ package com.CoreService.QP.CoreService.controller;
 
 import com.CoreService.QP.CoreService.controller.response.*;
 import com.CoreService.QP.CoreService.model.Movie;
+import com.CoreService.QP.CoreService.model.Series;
 import com.CoreService.QP.CoreService.service.WatchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,36 +24,36 @@ public class SuggestionsController {
         return new ResponseEntity<>(most, HttpStatus.OK);
     }
     @GetMapping("suggestions/most-Watched/movies")
-    public ResponseEntity<Page<MostWatchedMovie>> getMostWatched(@RequestParam int page , @RequestParam int size)
+    public ResponseEntity<Page<Movie>> getMostWatched(@RequestParam int page , @RequestParam int size)
     {
-        Page<MostWatchedMovie> most = watchService.getMostWatchedMovie(page ,size);
+        Page<Movie> most = watchService.getMostWatchedMovie(page ,size);
         return new ResponseEntity<>(most, HttpStatus.OK);
     }
 
     @GetMapping("suggestions/most-favorite/series")
-    public ResponseEntity<Page<MostFavoriteSeries>> getMostFavoriteSeries(@RequestParam int page , @RequestParam int size)
+    public ResponseEntity<Page<Series>> getMostFavoriteSeries(@RequestParam int page , @RequestParam int size)
     {
-        Page<MostFavoriteSeries> most = watchService.getMostFavoriteSeries(page ,size);
+        Page<Series> most = watchService.getMostFavoriteSeries(page ,size);
         return new ResponseEntity<>(most, HttpStatus.OK);
     }
 
     @GetMapping("suggestions/most-watched/series")
-    public ResponseEntity<Page<MostWatchedSeries>> getMostWatchedSeries(@RequestParam int page, @RequestParam int size) {
-        Page<MostWatchedSeries> mostWatchedSeries = watchService.getMostWatchedSeries(page, size);
+    public ResponseEntity<Page<Series>> getMostWatchedSeries(@RequestParam int page, @RequestParam int size) {
+        Page<Series> mostWatchedSeries = watchService.getMostWatchedSeries(page, size);
         return new ResponseEntity<>(mostWatchedSeries, HttpStatus.OK);
     }
 
     @GetMapping("suggestions/trending/movie")
-    public ResponseEntity<Page<TrendingMovie>> getTrendingMovie(@RequestParam int page , @RequestParam int size)
+    public ResponseEntity<Page<Movie>> getTrendingMovie(@RequestParam int page , @RequestParam int size)
     {
-        Page<TrendingMovie> trendingMovies = watchService.getTrendingMovie(page ,size);
+        Page<Movie> trendingMovies = watchService.getTrendingMovie(page ,size);
         return new ResponseEntity<>(trendingMovies, HttpStatus.OK);
     }
 
     @GetMapping("suggestions/trending/series")
-    public ResponseEntity<Page<TrendingSeries>> getTrendingSeries(@RequestParam int page , @RequestParam int size)
+    public ResponseEntity<Page<Series>> getTrendingSeries(@RequestParam int page , @RequestParam int size)
     {
-        Page<TrendingSeries> trendingSeries = watchService.getTrendingSeries(page ,size);
+        Page<Series> trendingSeries = watchService.getTrendingSeries(page ,size);
         return new ResponseEntity<>(trendingSeries, HttpStatus.OK);
     }
 }

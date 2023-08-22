@@ -32,7 +32,7 @@ public class Movie {
     private String description;
 
     @Transient
-    Long count ;
+    private Long count ;
 
     @OneToMany(mappedBy = "movie", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonBackReference
@@ -58,6 +58,7 @@ public class Movie {
         this.description = movie.getDescription();
         this.count = count;
         this.categories = movie.categories;
+        this.seasons = movie.seasons;
     }
 
     public Movie(){

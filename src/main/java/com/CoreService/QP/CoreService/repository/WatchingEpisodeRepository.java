@@ -2,6 +2,7 @@ package com.CoreService.QP.CoreService.repository;
 
 import com.CoreService.QP.CoreService.controller.response.MostWatchedSeries;
 import com.CoreService.QP.CoreService.controller.response.TrendingSeries;
+import com.CoreService.QP.CoreService.model.Series;
 import com.CoreService.QP.CoreService.model.WatchingEpisode;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -16,16 +17,16 @@ import java.util.Date;
 @Repository
 public interface WatchingEpisodeRepository extends JpaRepository<WatchingEpisode, Integer> {
 
-    @Query("SELECT NEW com.CoreService.QP.CoreService.controller.response.MostWatchedSeries(" +
+    @Query("SELECT NEW com.CoreService.QP.CoreService.model.Series(" +
             "we.series, " +
             "COUNT(we.id)) " +
             "FROM WatchingEpisode we " +
             "WHERE we.isDeleted = false " +
             "GROUP BY we.series " +
             "ORDER BY COUNT(we.id) DESC")
-    Page<MostWatchedSeries> findMostWatchedSeries(Pageable pageable);
+    Page<Series> findMostWatchedSeries(Pageable pageable);
 
-    @Query("SELECT NEW com.CoreService.QP.CoreService.controller.response.TrendingSeries(" +
+    @Query("SELECT NEW com.CoreService.QP.CoreService.model.Series(" +
             "we.series, " +
             "COUNT(we.id)) " +
             "FROM WatchingEpisode we " +
@@ -33,7 +34,7 @@ public interface WatchingEpisodeRepository extends JpaRepository<WatchingEpisode
             "AND we.startingDate >= :lastWeekStartDate " +
             "GROUP BY we.series " +
             "ORDER BY COUNT(we.id) DESC")
-    Page<TrendingSeries> findTrendingSeries(
+    Page<Series> findTrendingSeries(
             Pageable pageable,
             @Param("lastWeekStartDate") Date lastWeekStartDate
     );

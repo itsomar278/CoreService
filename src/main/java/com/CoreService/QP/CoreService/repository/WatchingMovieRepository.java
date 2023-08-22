@@ -2,6 +2,7 @@ package com.CoreService.QP.CoreService.repository;
 
 import com.CoreService.QP.CoreService.controller.response.MostWatchedMovie;
 import com.CoreService.QP.CoreService.controller.response.TrendingMovie;
+import com.CoreService.QP.CoreService.model.Movie;
 import com.CoreService.QP.CoreService.model.WatchingMovie;
 import jakarta.persistence.Tuple;
 import org.springframework.data.domain.Page;
@@ -17,25 +18,23 @@ import java.util.List;
 
 @Repository
 public interface WatchingMovieRepository extends JpaRepository<WatchingMovie, Integer> {
-    @Query("SELECT NEW com.CoreService.QP.CoreService.controller.response.MostWatchedMovie(" +
-            "wm.movie, " +
-            "COUNT(wm.id)) " +
+    @Query("SELECT NEW com.CoreService.QP.CoreService.model.Movie(" +
+            "COUNT(wm.movie), " +
+            "wm.movie) " +
             "FROM WatchingMovie wm " +
-            "JOIN MovieCategory mc ON wm.movie.id = mc.movie.id " +
             "WHERE wm.isDeleted = false " +
             "GROUP BY wm.movie " +
-            "ORDER BY COUNT(wm.id) DESC")
-    Page<MostWatchedMovie> findMostWatched(Pageable pageable);
+            "ORDER BY COUNT(wm.movie) DESC")
+    Page<Movie> findMostWatched(Pageable pageable);
 
 
-    @Query("SELECT NEW com.CoreService.QP.CoreService.controller.response.TrendingMovie(" +
-            "wm.movie, " +
-            "COUNT(wm.id)) " +
+    @Query("SELECT NEW com.CoreService.QP.CoreService.model.Movie(" +
+            "COUNT(wm.movie) , " +
+            "wm.movie) " +
             "FROM WatchingMovie wm " +
-            "JOIN MovieCategory mc ON wm.movie.id = mc.movie.id " +
             "WHERE wm.isDeleted = false " +
             "AND wm.startingDate >= :lastWeekStartDate " +
             "GROUP BY wm.movie " +
-            "ORDER BY COUNT(wm.id) DESC")
-    Page<TrendingMovie> findTrendingMovie(Pageable pageable, @Param("lastWeekStartDate") Date lastWeekStartDate);
+            "ORDER BY COUNT(wm.movie) DESC")
+    Page<Movie> findTrendingMovie(Pageable pageable, @Param("lastWeekStartDate") Date lastWeekStartDate);
 }

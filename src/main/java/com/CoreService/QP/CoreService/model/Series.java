@@ -36,7 +36,19 @@ public class Series {
     @OneToMany(mappedBy = "series", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SeriesCategory> categories;
 
+    @Transient
+    private Long count;
+
     public Series() {
+    }
+
+    public Series(Series series , Long count) {
+            this.id = series.getId();
+            this.name = series.getName();
+            this.description = series.getDescription();
+            this.count = count;
+            this.categories = series.categories;
+            this.seasons = series.seasons;
     }
 
     public Series(String name, String description) {
